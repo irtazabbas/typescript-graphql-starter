@@ -4,16 +4,29 @@ A bootstrap template of GraphQL API using Typescript, Apollo, TypeORM and Postgr
 ## Structure
 ```
 src/
+
     - models/
+
         - user/ (model name)
+
             - schema/ (All 'user' model specific GQL SDL definitions go here)
+
                 - user.query.graphql (model's query type definitions)
+            
                 - user.mutation.graphql (model's mutation type definitions)
+            
                 - (and so on...)
+            
+     
             - resolvers/ (model specific GQL resolvers)
+            
                 - user.query.ts (Query resolvers for 'user' model)
+            
                 - user.mutation.ts (Mutation resolvers for 'user' model)
+            
                 - (and so on...)
+            
+     
             - user.entity.ts (TypORM entity using Active Record pattern)
 ```
 ## Main Benefits
