@@ -1,0 +1,4 @@
+extend type Query {
+  login: String
+  logout: String
+}
