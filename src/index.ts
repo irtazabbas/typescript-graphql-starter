@@ -1,19 +1,12 @@
 import "reflect-metadata";
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer } from 'apollo-server';
 import { createConnection } from "typeorm";
 import * as config from 'config';
 
 import compileTypeDefs from './model/schema';
 import compileResolvers from './model/resolvers';
 import compileEntities from './model/entities';
-import User from "./model/user/user.entity";
 
-
-// import resolvers from './gql/resolvers';
-// import * as Entities from './entities';
-
-// compileResolvers().then(result => console.log(result)).catch(err => console.log(err))
-// compileTypeDefs().then(result => console.log(result)).catch(err => console.log(err))
 
 async function main() {
   const typeDefs = await compileTypeDefs();
