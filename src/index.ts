@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { ApolloServer, gql } from 'apollo-server';
 import { createConnection } from "typeorm";
+import * as config from 'config';
 
 import compileTypeDefs from './model/schema';
 import compileResolvers from './model/resolvers';
@@ -18,8 +19,21 @@ async function main() {
   const typeDefs = await compileTypeDefs();
   const resolvers = await compileResolvers();
   const entities = await compileEntities();
+  const dbConfig: {[key: string]: any} = config.get('db');
 
-  createConnection()
+  createConnection({
+    type: dbConfig.type,
+    host: dbConfig.host,
+    port: dbConfig.port,
+    username: dbConfig.username,
+    password: dbConfig.password,
+    database: dbConfig.database,
+    synchronize: dbConfig.synchronize,
+    logging: dbConfig.logging,
+    entities: [
+      "src/model/*/*.entity.ts"
+    ]
+  })
     .then(async connection => {
       const server = new ApolloServer({
         typeDefs,
@@ -30,7 +44,9 @@ async function main() {
         }
       });
 
-      server.listen().then(({ url }) => {
+      server.listen({
+        port: config.get('server.port')
+      }).then(({ url }) => {
         console.log(`🚀  Server ready at ${url}`);
       });
     })
